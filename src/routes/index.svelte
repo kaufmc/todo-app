@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
   import type { Load } from '@sveltejs/kit';
+  import type { Todo } from 'src/types/global';
 
   export const load: Load = async ({ fetch }) => {
     const res = await fetch('/todos.json');
