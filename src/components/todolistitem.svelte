@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { Todo } from 'src/types/global';
+
   export let todo: Todo;
 </script>
 
