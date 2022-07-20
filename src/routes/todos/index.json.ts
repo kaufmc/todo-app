@@ -9,13 +9,23 @@ export const GET: RequestHandler = () => {
   };
 };
 
-export const POST: RequestHandler = async (event: RequestEvent) => {
-  const promise = await event.request.formData();
-  todos.push({
-    created_at: new Date(),
-    done: false,
-    text: promise.get('todo_text'),
+export const POST: RequestHandler<{}, FormData> = async (
+  event: RequestEvent
+) => {
+  const text = await event.request.formData().then((data) => {
+    return data.get('todo_text')?.toString();
   });
+
+  if (text) {
+    todos.push({
+      created_at: new Date(),
+      done: false,
+      text: text,
+    });
+  } else {
+    console.log("Error getting form data.")
+  }
+
   return {
     status: 303, //redirect browser to location "/"
     headers: {
