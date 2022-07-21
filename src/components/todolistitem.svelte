@@ -13,7 +13,7 @@
     <input type="text" value={todo.text} />
     <button aria-label="Save changes on todo" class="save" />
   </form>
-  <form action="" method="">
+  <form action="/todos/{todo.uid}.json?_method=DELETE" method="post">
     <button aria-label="Delete the todo" class="delete" />
   </form>
 </div>

@@ -1,35 +1,19 @@
 import type { RequestEvent, RequestHandler } from '@sveltejs/kit';
-import type { Todo } from 'src/types/global';
-let todos: Todo[] = [];
+import { api } from './_api';
 
-export const GET: RequestHandler = () => {
-  return {
-    status: 200,
-    body: todos,
-  };
+export const GET: RequestHandler = (event: RequestEvent) => {
+  return api(event);
 };
 
-export const POST: RequestHandler<{}, FormData> = async (
-  event: RequestEvent
-) => {
+export const POST: RequestHandler = async (event: RequestEvent) => {
   const text = await event.request.formData().then((data) => {
-    return data.get('todo_text')?.toString();
+    return data.get('todo_text')?.toString() ?? '';
   });
 
-  if (text) {
-    todos.push({
-      created_at: new Date(),
-      done: false,
-      text: text,
-    });
-  } else {
-    console.log("Error getting form data.")
-  }
-
-  return {
-    status: 303, //redirect browser to location "/"
-    headers: {
-      location: '/',
-    },
-  };
+  return api(event, {
+    uid: `${Date.now()}`, // TODO replace by uid from database
+    created_at: new Date(),
+    done: false,
+    text: text,
+  });
 };

@@ -9,6 +9,10 @@ const config = {
 
   kit: {
     adapter: adapter(),
+    methodOverride: {
+      parameter: '_method',
+      allowed: ['DELETE'],
+    },
   },
 };
 
