@@ -3,7 +3,7 @@ import type { Todo } from 'src/types/global';
 
 let todos: Todo[] = [];
 
-export const api = (event: RequestEvent, todo?: Todo) => {
+export const api = (event: RequestEvent, data?: Record<string, unknown>) => {
   let body = {};
   let status = 500;
 
@@ -14,16 +14,29 @@ export const api = (event: RequestEvent, todo?: Todo) => {
       break;
 
     case 'POST':
-      if (todo) {
-        todos.push(todo);
+      if (data) {
+        todos.push(data as Todo);
       }
-      body = { todo };
+      body = { todo: data };
       status = 201;
+      break;
+
+    case 'PATCH':
+      if (data) {
+        todos = todos.map((todo) => {
+          if (todo.uid === event.params.uid) {
+            todo.text = data.text as string;
+          }
+          return todo;
+        });
+      }
+      status = 200;
       break;
 
     case 'DELETE':
       todos = todos.filter((todo) => todo.uid !== event.params.uid);
       break;
+
     default:
       break;
   }

@@ -6,7 +6,7 @@ export const GET: RequestHandler = (event: RequestEvent) => {
 };
 
 export const POST: RequestHandler = async (event: RequestEvent) => {
-  const text = await event.request.formData().then((data) => {
+  const todoText = await event.request.formData().then((data) => {
     return data.get('todo_text')?.toString() ?? '';
   });
 
@@ -14,6 +14,6 @@ export const POST: RequestHandler = async (event: RequestEvent) => {
     uid: `${Date.now()}`, // TODO replace by uid from database
     created_at: new Date(),
     done: false,
-    text: text,
+    text: todoText,
   });
 };

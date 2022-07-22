@@ -9,8 +9,8 @@
     <input type="hidden" name="isDone" value="" />
     <button aria-label="Mark as done or not done" class="toggle" />
   </form>
-  <form action="" method="" class="text">
-    <input type="text" value={todo.text} />
+  <form action="/todos/{todo.uid}.json?_method=PATCH" method="post" class="text">
+    <input type="text" name="todo_text" value={todo.text} />
     <button aria-label="Save changes on todo" class="save" />
   </form>
   <form action="/todos/{todo.uid}.json?_method=DELETE" method="post">
