@@ -6,11 +6,12 @@ export let DELETE: RequestHandler = (event: RequestEvent) => {
 };
 
 export let PATCH: RequestHandler = async (event: RequestEvent) => {
-  const todoText = await event.request.formData().then((data) => {
-    return data.get('todo_text')?.toString() ?? '';
-  });
+  const formData = await event.request.formData();
+  const todoText = formData.get('todo_text');
+  const isDone = formData.get('is_done');
 
   return api(event, {
     text: todoText,
+    done: isDone ? !!isDone : undefined,
   });
 };
